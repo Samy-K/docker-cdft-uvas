@@ -8,7 +8,6 @@ install.packages.manual <- function(PATH_to_Package.tar.gz)
 
 
 librairies <-  c(
-  #  "R2D2", "latex2exp",       #pas besoin pour le moment
   "chron", "CDFt", "latex2exp", "lubridate","ncdf4", "PCICt", "qmap", "rWind",
   "MASS", "scales", "glue", "dplyr",  "purrr", "tidyverse", 
   "ggplot2", "stringr", "RColorBrewer", "data.table", "Metrics","car", "zoo", "extRemes",
