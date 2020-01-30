@@ -20,11 +20,13 @@ RUN wget https://code.mpimet.mpg.de/attachments/download/16435/cdo-1.9.3.tar.gz 
     && make install \
     && rm -rf /tmp/*
 
+# Locale generation
 RUN locale-gen fr_FR.UTF-8
 ENV LANG fr_FR.UTF-8
 ENV LANGUAGE fr_FR:en
 ENV LC_ALL fr_FR.UTF-8
 
+# Install R
 RUN sh -c 'echo "deb https://cloud.r-project.org/bin/linux/ubuntu trusty-cran35/" >> /etc/apt/sources.list'
 RUN gpg --keyserver keyserver.ubuntu.com --recv-key E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | sudo apt-key add -
@@ -40,13 +42,14 @@ RUN apt-get update \
 RUN mkdir -p /data && chmod 777 /data
 WORKDIR /data
 
+# Install some R packages
 COPY env.R /data/
 COPY ncdf4.helpers.tar.gz /data/
 COPY libxml2-dev.deb /data/
 RUN dpkg -i libxml2-dev.deb
 RUN Rscript env.R
 
-
+# Install pip and HdfsCLI && file tree construction
 RUN apt-get update && apt-get install -y python-pip python-dev build-essential \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir code \
@@ -58,6 +61,7 @@ RUN apt-get update && apt-get install -y python-pip python-dev build-essential \
 
 RUN pip install hdfs
 
+# HdfsCLI configuration
 ENV HDFSCLI_CONFIG /data/hdfs
 ENV HDFSCLI_CONFIG /data/hdfs/.hdfscli.cfg
 
@@ -67,6 +71,7 @@ COPY run.sh /data/code/
 
 WORKDIR /data/code/
 
+# Run
 CMD ["bash", "run.sh"]
 
 
