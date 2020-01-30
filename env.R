@@ -23,7 +23,7 @@ for (lib in librairies)
     cat(lib, " is loaded correctly ! \n")
   } else {
     cat("Trying to install ", lib, "\n")
-    install.packages(lib)#, character.only = TRUE )
+    install.packages(lib)
     if(require(lib, character.only=TRUE, quietly=TRUE))
     {
       cat(lib, " installed and loaded ! \n")
